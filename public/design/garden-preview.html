@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Propuesta visual del jardín de metas de Alcancía Viva.">
+  <title>El jardín de tus metas · Alcancía Viva</title>
+  <link rel="icon" href="/favicon.svg?v=piggy-v1" type="image/svg+xml">
+  <link rel="stylesheet" href="./garden-preview.css">
+  <link rel="preload" as="image" href="./assets/cosmos-stages.webp">
+  <script src="./garden-preview.js" type="module"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Ir al jardín</a>
+  <header class="header">
+    <a class="brand" href="https://alcancia-viva-jardin.netlify.app"><img src="/brand/piggy-bank.svg" width="40" height="40" alt="">Alcancía Viva</a>
+    <span class="preview-label"><span aria-hidden="true"></span> Diseño del jardín</span>
+  </header>
+  <main id="main">
+    <div class="intro">
+      <div><p class="eyebrow">UN ESPACIO PARA VERTE CRECER</p><h1>Cada meta, una nueva raíz.</h1><p class="intro-copy">Tu ahorro cobra vida. Elige una maceta y descubre la historia de su crecimiento.</p></div>
+      <div class="intro-controls"><button id="motion" class="secondary" aria-pressed="false">Pausar movimiento</button><button id="listen" class="quiet">Escuchar jardín <span aria-hidden="true">↗</span></button></div>
+    </div>
+    <div class="workspace-bar">
+      <nav class="views" aria-label="Vistas del diseño">
+        <button class="view active" data-view="garden" aria-pressed="true">Mi jardín</button>
+        <button class="view" data-view="cards" aria-pressed="false">Mis metas</button>
+        <button class="view" data-view="elements" aria-pressed="false">Etapas y elementos</button>
+      </nav>
+      <label class="scope">Mostrar<select id="scope"><option value="all">Todas mis metas</option><option value="personal">Personales</option><option value="Familia">Grupo · Familia</option><option value="Equipo IHC">Grupo · Equipo IHC</option></select></label>
+    </div>
+    <section id="garden-view" aria-label="Jardín general">
+      <div class="garden-layout">
+        <div class="garden-column">
+          <div class="garden-scene" id="scene">
+            <div class="scene-heading"><span class="scene-chip">EL JARDÍN DE TUS METAS</span><p id="scene-title">Tu jardín está creciendo</p></div>
+            <div id="pots" class="pots" role="group" aria-label="Macetas de tus metas"></div>
+            <div class="scene-foot"><span><span class="live-dot" aria-hidden="true"></span> Cada maceta representa una meta</span><span id="scene-count">4 macetas</span></div>
+          </div>
+          <div class="garden-summary"><div class="average-ring" id="average-ring"><strong id="average">57,3 %</strong></div><div class="summary-copy"><h2>Tu jardín, en conjunto</h2><p id="average-explanation">Promedio del avance de tus metas.</p></div><span class="achievement" id="completed">1 meta florecida</span></div>
+          <p class="example-note">Vista de diseño con metas de ejemplo. Los cambios se quedan en esta página. Referencia del plan: 11 de noviembre de 2026.</p>
+        </div>
+        <aside class="detail" id="detail" aria-labelledby="detail-title">
+          <div class="detail-top"><span class="eyebrow">TU MACETA SELECCIONADA</span><span class="type-badge" id="detail-group">Personal</span></div>
+          <h2 id="detail-title">Mi nueva laptop</h2>
+          <p class="stage-label" id="detail-stage">Primeros brotes</p>
+          <div class="detail-money"><strong id="detail-saved">S/ 270,00</strong><span id="detail-target">de S/ 3 000,00</span></div>
+          <div class="progress-heading"><span>Tu avance</span><strong id="detail-percent">9 %</strong></div>
+          <progress id="detail-progress" max="100" value="9" aria-label="Avance de la meta seleccionada"></progress>
+          <p class="growth-copy" id="growth-copy">Tu ahorro está echando raíces. Cada aporte cuenta.</p>
+          <div class="pace-message" id="pace-message"><span class="pace-mark" aria-hidden="true">↗</span><div><strong id="pace-title">Vas a buen ritmo</strong><p id="pace-copy">Tu ahorro acompaña el tiempo de tu meta.</p></div></div>
+          <dl class="deadline"><div><dt>Fecha objetivo</dt><dd id="detail-due">22 mar 2027</dd></div><div><dt>Tiempo transcurrido</dt><dd id="detail-elapsed">7,1 % del plazo</dd></div></dl>
+          <div class="try-controls"><label for="growth">Explorar el crecimiento <output id="growth-value" for="growth">9 %</output></label><input id="growth" type="range" min="0" max="100" step="1" value="9" aria-describedby="growth-help"><p id="growth-help">Mueve el control para ver cómo cambia esta planta.</p><button id="contribute" class="primary">Probar aporte de S/ 50 <span aria-hidden="true">↗</span></button></div>
+        </aside>
+      </div>
+      <div class="garden-actions"><button id="add-pot" class="secondary">＋ Añadir maceta de ejemplo</button><button id="reset" class="quiet">Restablecer diseño</button></div>
+    </section>
+    <section id="cards-view" aria-label="Tarjetas de metas" hidden><div class="section-heading"><h2>Un pequeño mundo para cada meta</h2><p>El mismo crecimiento, también en tus tarjetas.</p></div><div id="goal-cards" class="goal-cards"></div></section>
+    <section id="elements-view" aria-label="Etapas y elementos del jardín" hidden>
+      <div class="section-heading"><h2>De una semilla a un logro</h2><p>La maceta mantiene su tamaño. Tu ahorro hace crecer la planta.</p></div>
+      <div id="stage-gallery" class="stage-gallery"></div>
+      <div class="material-notes"><div><span class="note-number">01</span><h3>Terracota y luz natural</h3><p>Volumen, textura y sombras para un jardín de aspecto realista.</p></div><div><span class="note-number">02</span><h3>Una vida tranquila</h3><p>Las hojas se mecen suavemente. Puedes pausar el movimiento en cualquier momento.</p></div><div><span class="note-number">03</span><h3>Crecer sin culpa</h3><p>El plazo orienta el mensaje. Una demora no borra el ahorro ni mata la planta.</p></div></div>
+    </section>
+    <div id="announcement" class="announcement" role="status" aria-live="polite" aria-atomic="true"></div>
+  </main>
+  <footer class="footer"><span>ALCANCÍA VIVA <span aria-hidden="true">·</span> CADA PEQUEÑO PASO CUENTA</span><a href="https://alcancia-viva-jardin.netlify.app">Volver a la aplicación <span aria-hidden="true">↗</span></a></footer>
+</body>
+</html>
