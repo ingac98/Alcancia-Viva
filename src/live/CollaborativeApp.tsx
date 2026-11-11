@@ -56,7 +56,7 @@ function Auth() {
         <img src="/garden/floreciente.png" alt="Jardín con flores rosadas, margaritas y un sendero de piedra"/>
       </div>
       <section className="av-card" aria-labelledby="auth-title"><h2 id="auth-title">{signup?'Crea tu espacio':'Bienvenido a tu jardín'}</h2>
-        <p>Educación financiera con datos de práctica. No se conecta a bancos ni mueve dinero real.</p>
+        <p>Organiza tus gastos, alcanza tus metas y haz crecer tu ahorro.</p>
         <form onSubmit={submit}>
           {signup&&<label>Tu nombre<input autoComplete="name" required maxLength={100} value={name} onChange={e=>setName(e.target.value)}/></label>}
           <label>Correo electrónico<input autoComplete="email" type="email" required value={email} onChange={e=>setEmail(e.target.value)}/></label>
