@@ -11,6 +11,10 @@ const statusNames: Record<string,string> = {pending:'Pendiente de aprobación',a
 const movementNames = {expense:'Gasto',income:'Ingreso',savings:'Ahorro'};
 const errorMessage = (e:unknown) => e instanceof Error ? e.message : 'No pudimos completar la acción. Conservamos tus datos para reintentar.';
 
+function BrandIcon() {
+  return <img className="av-brand-icon" src="/brand/piggy-bank.svg" alt="" aria-hidden="true" width={40} height={40}/>;
+}
+
 export function CollaborativeApp() {
   const [session,setSession]=useState<Session|null>(null);
   const [ready,setReady]=useState(false);
@@ -45,7 +49,7 @@ function Auth() {
     }catch(e){setError(errorMessage(e));}finally{setBusy(false);}
   }
   return <main className="av-auth av-page">
-    <div className="av-brand"><span aria-hidden="true">✳</span> Alcancía Viva</div>
+    <div className="av-brand"><BrandIcon/> Alcancía Viva</div>
     <section className="av-auth-grid">
       <div className="av-welcome"><p className="av-eyebrow">CADA PEQUEÑO PASO CUENTA</p><h1>Tu ahorro,<br/>un jardín que crece.</h1>
         <p>Comprende tus gastos, cuida tus metas y avanza junto a quienes tú elijas.</p>
@@ -186,7 +190,7 @@ function Workspace({session}:{session:Session}) {
     <button className="av-link" onClick={()=>requireDatabase().auth.signOut()}>Cerrar sesión</button></section></main>;
   return <div className={`av-app ${prefs.highContrast?'av-contrast':''} ${prefs.largeText?'av-large':''} ${prefs.reducedMotion?'av-still':''}`}>
     <a className="av-skip" href="#av-main">Saltar al contenido</a>
-    <header className="av-header"><a className="av-brand" href="#av-main"><span aria-hidden="true">✳</span> Alcancía Viva</a>
+    <header className="av-header"><a className="av-brand" href="#av-main"><BrandIcon/> Alcancía Viva</a>
       <div><span>{profile.display_name}</span><button className="av-secondary" onClick={()=>requireDatabase().auth.signOut()}>Salir</button></div></header>
     <div className="av-layout"><nav aria-label="Navegación principal" className="av-nav">
       {[['garden','Mi jardín'],['goals','Metas'],['groups','Mis grupos'],['history','Movimientos'],['assistant','Asistente'],['settings','Preferencias']].map(([id,title])=><button key={id} aria-current={tab===id?'page':undefined} onClick={()=>setTab(id)}>{title}</button>)}
