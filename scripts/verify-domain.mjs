@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import { interpretLocally,weekExpenses,gardenState } from '../src/live/domain.ts';
+const goals=[{id:'laptop',title:'Laptop',group_id:null,target_amount:1000,current_amount:500},{id:'trip-a',title:'Viaje',group_id:'a',target_amount:2000,current_amount:0},{id:'trip-b',title:'Viaje',group_id:'b',target_amount:2000,current_amount:0}];
+assert.equal(interpretLocally('Ahorré 100 soles',goals,null).goalId,'');
+assert.equal(interpretLocally('Ahorré 100 soles para Laptop',goals,null).goalId,'laptop');
+assert.equal(interpretLocally('Ahorré 100 para Viaje',goals,null).goalId,'');
+assert.equal(interpretLocally('Recibí 100 por un trabajo',goals,null).type,'income');
+assert.equal(interpretLocally('Gasté 25 en taxi',goals,null).category,'Transporte');
+assert.equal(interpretLocally('Quiero ahorrar 100 soles',goals,null).type,'');
+assert.equal(interpretLocally('Taxi 20 y café 8',goals,null).amount,'');
+assert.equal(interpretLocally('100 soles',goals,null).type,'');
+assert.equal(interpretLocally('Gasté -100 soles',goals,null).amount,'');
+const movements=Array.from({length:9},(_,i)=>({type:'expense',amount:10,occurred_on:'2026-11-10',reversed_at:null,id:String(i)}));
+movements.push({type:'expense',amount:100,occurred_on:'2026-11-01',reversed_at:null,id:'old'});
+assert.equal(weekExpenses(movements,new Date('2026-11-11T14:00:00Z')).reduce((sum,m)=>sum+m.amount,0),90);
+assert.equal(gardenState([goals[0]]).flourishing,true);
+assert.equal(gardenState([]).label,'Un nuevo comienzo');
+console.log('PASS: 12 comprobaciones de tipo, destino, ambigüedad, montos, periodo semanal y jardín');

@@ -1,0 +1,12 @@
+{
+  "auth": true,
+  "approval": true,
+  "goals": 2,
+  "multipleGroups": true,
+  "privacy": true,
+  "concurrentTotal": 150,
+  "retryDidNotDuplicate": true,
+  "realtimeEvents": 2,
+  "groqReady": true,
+  "groqVerified": true
+}
