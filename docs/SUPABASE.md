@@ -31,7 +31,7 @@ Los miembros ven los datos de los aportes compartidos que se registren en su gru
 5. Conectar la interfaz de cuentas, grupos, solicitudes y metas con las operaciones de esta base.
 6. Probar dos cuentas reales en sesiones separadas: solicitud, aprobación, aportes y recepción de cambios. Verificar además permisos desde la API, no solo ocultando botones.
 
-Crear el proyecto o aplicar SQL no demuestra todavía una PWA colaborativa completa. Faltan la integración de la app, las sesiones reales de Auth, la entrega de cambios Realtime, la configuración remota y la prueba accesible de los flujos.
+La interfaz del repositorio ya utiliza Auth, operaciones de datos y Realtime, y está publicada en Netlify. Para reproducirla con otro backend, preparar todos los servicios indicados y verificar los recorridos con cuentas de prueba. La publicación y la dirección de retorno del correo se documentan en [NETLIFY.md](NETLIFY.md).
 
 ## Pruebas realizadas
 

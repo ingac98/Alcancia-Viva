@@ -1,0 +1,771 @@
+{
+  "metadata": {
+    "name": "Alcancía Viva - datos simulados",
+    "version": 1,
+    "synthetic": true,
+    "currency": "PEN",
+    "timezone": "America/Lima",
+    "period_start": "2026-10-13",
+    "period_end": "2026-11-11",
+    "days": 30,
+    "usage": "Referencia para recrear escenarios manualmente en la interfaz. No es una importación automática a Supabase.",
+    "identifier_type": "Alias ficticios, no UUID ni identificadores de cuentas reales.",
+    "auth_accounts_included": false,
+    "bank_balance_calculated": false
+  },
+  "profiles": [
+    {
+      "id": "demo-ana",
+      "display_name": "Ana (simulada)",
+      "preferences": {
+        "weeklyBudget": 300,
+        "highContrast": false,
+        "largeText": false,
+        "reducedMotion": false,
+        "simple": false,
+        "audio": false
+      }
+    },
+    {
+      "id": "demo-bruno",
+      "display_name": "Bruno (simulado)",
+      "preferences": {
+        "weeklyBudget": 250,
+        "highContrast": true,
+        "largeText": true,
+        "reducedMotion": true,
+        "simple": false,
+        "audio": false
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "demo-familia",
+      "name": "Familia Semilla",
+      "created_by": "demo-ana"
+    },
+    {
+      "id": "demo-estudio",
+      "name": "Equipo de estudio",
+      "created_by": "demo-bruno"
+    }
+  ],
+  "memberships": [
+    {
+      "group_id": "demo-familia",
+      "user_id": "demo-ana",
+      "role": "admin"
+    },
+    {
+      "group_id": "demo-familia",
+      "user_id": "demo-bruno",
+      "role": "member"
+    },
+    {
+      "group_id": "demo-estudio",
+      "user_id": "demo-bruno",
+      "role": "admin"
+    },
+    {
+      "group_id": "demo-estudio",
+      "user_id": "demo-ana",
+      "role": "member"
+    }
+  ],
+  "goals": [
+    {
+      "id": "meta-laptop",
+      "title": "Laptop",
+      "owner_id": "demo-ana",
+      "group_id": null,
+      "target_amount": 2000,
+      "target_date": "2027-02-28"
+    },
+    {
+      "id": "meta-emergencia-personal",
+      "title": "Fondo de emergencia",
+      "owner_id": "demo-ana",
+      "group_id": null,
+      "target_amount": 1000,
+      "target_date": "2027-01-31"
+    },
+    {
+      "id": "meta-viaje",
+      "title": "Viaje a Cusco",
+      "owner_id": "demo-ana",
+      "group_id": "demo-familia",
+      "target_amount": 2000,
+      "target_date": "2027-03-31"
+    },
+    {
+      "id": "meta-emergencia-familiar",
+      "title": "Emergencia familiar",
+      "owner_id": "demo-ana",
+      "group_id": "demo-familia",
+      "target_amount": 1000,
+      "target_date": "2027-01-31"
+    },
+    {
+      "id": "meta-materiales",
+      "title": "Materiales",
+      "owner_id": "demo-bruno",
+      "group_id": "demo-estudio",
+      "target_amount": 400,
+      "target_date": "2026-12-20"
+    },
+    {
+      "id": "meta-feria",
+      "title": "Feria estudiantil",
+      "owner_id": "demo-bruno",
+      "group_id": "demo-estudio",
+      "target_amount": 600,
+      "target_date": "2027-01-15"
+    }
+  ],
+  "movements": [
+    {
+      "id": "mov-demo-001",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 8,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 1",
+      "occurred_on": "2026-10-13",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-031",
+      "user_id": "demo-ana",
+      "type": "income",
+      "amount": 1500,
+      "currency": "PEN",
+      "category": "Trabajo",
+      "description": "Ingreso ficticio de práctica",
+      "occurred_on": "2026-10-13",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-002",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 15,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 2",
+      "occurred_on": "2026-10-14",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-032",
+      "user_id": "demo-bruno",
+      "type": "income",
+      "amount": 1200,
+      "currency": "PEN",
+      "category": "Trabajo",
+      "description": "Ingreso ficticio de práctica",
+      "occurred_on": "2026-10-14",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-003",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 12,
+      "currency": "PEN",
+      "category": "Educación",
+      "description": "Gasto ficticio del día 3",
+      "occurred_on": "2026-10-15",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-004",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 30,
+      "currency": "PEN",
+      "category": "Servicios",
+      "description": "Gasto ficticio del día 4",
+      "occurred_on": "2026-10-16",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-005",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 10,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 5",
+      "occurred_on": "2026-10-17",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-035",
+      "user_id": "demo-ana",
+      "type": "savings",
+      "amount": 300,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Laptop",
+      "occurred_on": "2026-10-17",
+      "source": "manual",
+      "goal_id": "meta-laptop",
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-006",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 18,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 6",
+      "occurred_on": "2026-10-18",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-007",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 25,
+      "currency": "PEN",
+      "category": "Salud",
+      "description": "Gasto ficticio del día 7",
+      "occurred_on": "2026-10-19",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-008",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 8,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 8",
+      "occurred_on": "2026-10-20",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-036",
+      "user_id": "demo-ana",
+      "type": "savings",
+      "amount": 100,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Fondo de emergencia",
+      "occurred_on": "2026-10-20",
+      "source": "manual",
+      "goal_id": "meta-emergencia-personal",
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-009",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 15,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 9",
+      "occurred_on": "2026-10-21",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-010",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 12,
+      "currency": "PEN",
+      "category": "Educación",
+      "description": "Gasto ficticio del día 10",
+      "occurred_on": "2026-10-22",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-011",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 30,
+      "currency": "PEN",
+      "category": "Servicios",
+      "description": "Gasto ficticio del día 11",
+      "occurred_on": "2026-10-23",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-012",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 10,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 12",
+      "occurred_on": "2026-10-24",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-013",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 18,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 13",
+      "occurred_on": "2026-10-25",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-037",
+      "user_id": "demo-ana",
+      "type": "savings",
+      "amount": 100,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Viaje a Cusco",
+      "occurred_on": "2026-10-25",
+      "source": "manual",
+      "goal_id": "meta-viaje",
+      "group_id": "demo-familia",
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-014",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 25,
+      "currency": "PEN",
+      "category": "Salud",
+      "description": "Gasto ficticio del día 14",
+      "occurred_on": "2026-10-26",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-038",
+      "user_id": "demo-bruno",
+      "type": "savings",
+      "amount": 50,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Viaje a Cusco",
+      "occurred_on": "2026-10-26",
+      "source": "manual",
+      "goal_id": "meta-viaje",
+      "group_id": "demo-familia",
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-015",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 8,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 15",
+      "occurred_on": "2026-10-27",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-016",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 15,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 16",
+      "occurred_on": "2026-10-28",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-017",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 12,
+      "currency": "PEN",
+      "category": "Educación",
+      "description": "Gasto ficticio del día 17",
+      "occurred_on": "2026-10-29",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-018",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 30,
+      "currency": "PEN",
+      "category": "Servicios",
+      "description": "Gasto ficticio del día 18",
+      "occurred_on": "2026-10-30",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-019",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 10,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 19",
+      "occurred_on": "2026-10-31",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-020",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 18,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 20",
+      "occurred_on": "2026-11-01",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-033",
+      "user_id": "demo-ana",
+      "type": "income",
+      "amount": 500,
+      "currency": "PEN",
+      "category": "Trabajo",
+      "description": "Ingreso ficticio de práctica",
+      "occurred_on": "2026-11-01",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-021",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 25,
+      "currency": "PEN",
+      "category": "Salud",
+      "description": "Gasto ficticio del día 21",
+      "occurred_on": "2026-11-02",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-034",
+      "user_id": "demo-bruno",
+      "type": "income",
+      "amount": 300,
+      "currency": "PEN",
+      "category": "Trabajo",
+      "description": "Ingreso ficticio de práctica",
+      "occurred_on": "2026-11-02",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-022",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 8,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 22",
+      "occurred_on": "2026-11-03",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-023",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 15,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 23",
+      "occurred_on": "2026-11-04",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-039",
+      "user_id": "demo-ana",
+      "type": "savings",
+      "amount": 100,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Emergencia familiar",
+      "occurred_on": "2026-11-04",
+      "source": "manual",
+      "goal_id": "meta-emergencia-familiar",
+      "group_id": "demo-familia",
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-024",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 12,
+      "currency": "PEN",
+      "category": "Educación",
+      "description": "Gasto ficticio del día 24",
+      "occurred_on": "2026-11-05",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-040",
+      "user_id": "demo-bruno",
+      "type": "savings",
+      "amount": 200,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Materiales",
+      "occurred_on": "2026-11-05",
+      "source": "manual",
+      "goal_id": "meta-materiales",
+      "group_id": "demo-estudio",
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-025",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 30,
+      "currency": "PEN",
+      "category": "Servicios",
+      "description": "Gasto ficticio del día 25",
+      "occurred_on": "2026-11-06",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-026",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 10,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 26",
+      "occurred_on": "2026-11-07",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-027",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 18,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 27",
+      "occurred_on": "2026-11-08",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-028",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 25,
+      "currency": "PEN",
+      "category": "Salud",
+      "description": "Gasto ficticio del día 28",
+      "occurred_on": "2026-11-09",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-029",
+      "user_id": "demo-ana",
+      "type": "expense",
+      "amount": 8,
+      "currency": "PEN",
+      "category": "Transporte",
+      "description": "Gasto ficticio del día 29",
+      "occurred_on": "2026-11-10",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-041",
+      "user_id": "demo-ana",
+      "type": "savings",
+      "amount": 100,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Materiales",
+      "occurred_on": "2026-11-10",
+      "source": "manual",
+      "goal_id": "meta-materiales",
+      "group_id": "demo-estudio",
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-030",
+      "user_id": "demo-bruno",
+      "type": "expense",
+      "amount": 15,
+      "currency": "PEN",
+      "category": "Alimentación",
+      "description": "Gasto ficticio del día 30",
+      "occurred_on": "2026-11-11",
+      "source": "manual",
+      "goal_id": null,
+      "group_id": null,
+      "reversed_at": null
+    },
+    {
+      "id": "mov-demo-042",
+      "user_id": "demo-bruno",
+      "type": "savings",
+      "amount": 200,
+      "currency": "PEN",
+      "category": "Ahorro",
+      "description": "Aporte ficticio a Feria estudiantil",
+      "occurred_on": "2026-11-11",
+      "source": "manual",
+      "goal_id": "meta-feria",
+      "group_id": "demo-estudio",
+      "reversed_at": null
+    }
+  ],
+  "expected_results": {
+    "totals_by_type": {
+      "income": 3500,
+      "expense": 495,
+      "savings": 1150
+    },
+    "goals": [
+      {
+        "goal_id": "meta-laptop",
+        "saved_amount": 300,
+        "target_amount": 2000
+      },
+      {
+        "goal_id": "meta-emergencia-personal",
+        "saved_amount": 100,
+        "target_amount": 1000
+      },
+      {
+        "goal_id": "meta-viaje",
+        "saved_amount": 150,
+        "target_amount": 2000
+      },
+      {
+        "goal_id": "meta-emergencia-familiar",
+        "saved_amount": 100,
+        "target_amount": 1000
+      },
+      {
+        "goal_id": "meta-materiales",
+        "saved_amount": 300,
+        "target_amount": 400
+      },
+      {
+        "goal_id": "meta-feria",
+        "saved_amount": 200,
+        "target_amount": 600
+      }
+    ],
+    "group_gardens": [
+      {
+        "group_id": "demo-familia",
+        "saved_amount": 250,
+        "target_amount": 3000,
+        "progress_percent": 8,
+        "flourishing": false
+      },
+      {
+        "group_id": "demo-estudio",
+        "saved_amount": 500,
+        "target_amount": 1000,
+        "progress_percent": 50,
+        "flourishing": true
+      }
+    ]
+  }
+}
