@@ -2,6 +2,19 @@
 
 El frontend se publica en Netlify. Supabase conserva las cuentas, permisos, metas, movimientos y el asistente Groq; no hay que crear otra base de datos.
 
+## Estado publicado — 11 de noviembre de 2026
+
+- Aplicación: <https://alcancia-viva-jardin.netlify.app>.
+- Código: <https://github.com/ingac98/Alcancia-Viva>.
+- Panel: <https://app.netlify.com/projects/alcancia-viva-jardin>.
+- Proyecto de Netlify: `2d6b257c-cdff-46f9-ba95-5852aab7a7d4`, equipo `ingac98`, plan Free.
+- Publicación: `6af412b8c96fa7632280437f`, estado `ready`, fuente `0766edc2c40425c044f6bfd79c47daa9d278efb1`.
+- Site URL de Supabase: el propietario confirmó el cambio a la dirección de Netlify. La integración usada no permite leer ni modificar ese ajuste.
+
+Este despliegue se realizó con la herramienta oficial de Netlify desde una copia limpia del código publicado en GitHub. No se activó la publicación automática desde GitHub; los pasos siguientes explican cómo enlazarla si se desea. Para actualizar manualmente: compilar y ejecutar `netlify deploy --prod --dir dist --no-build` desde este proyecto, con la cuenta autorizada y el proyecto enlazado.
+
+## Enlazar publicación automática
+
 1. Subir este código a un repositorio de GitHub accesible por el equipo.
 2. En Netlify elegir **Add new project → Import an existing project → GitHub** y seleccionar el repositorio y su rama de publicación.
 3. Dejar la carpeta base en la raíz del proyecto. `netlify.toml` fija Node 22, `npm run build`, la carpeta `dist`, la redirección de rutas y la actualización del service worker.
