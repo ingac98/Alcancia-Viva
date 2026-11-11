@@ -91,7 +91,7 @@ C4Container
     Rel(asistente, db, "Lee registros autorizados", "HTTPS")
     Rel(asistente, groq, "Solicita una respuesta", "HTTPS")
 
-    UpdateLayoutConfig(3, 1)
+    UpdateLayoutConfig("3", "1")
 ```
 
 Las vistas de **contexto, contenedores y componentes**, junto con los flujos de invitación y ahorro, se encuentran en [la documentación de arquitectura C4](docs/architecture/c4-model.md).

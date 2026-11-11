@@ -23,7 +23,7 @@ C4Context
     Rel(app, groq, "Consulta desde el servidor", "HTTPS")
     Rel(app, voz, "Transcribe y lee respuestas", "Web Speech API")
 
-    UpdateLayoutConfig(3, 1)
+    UpdateLayoutConfig("3", "1")
 ```
 
 ## Nivel 2: contenedores
@@ -58,7 +58,7 @@ C4Container
     Rel(asistente, db, "Lee registros autorizados", "HTTPS")
     Rel(asistente, groq, "Solicita una respuesta", "HTTPS")
 
-    UpdateLayoutConfig(3, 1)
+    UpdateLayoutConfig("3", "1")
 ```
 
 ### Responsabilidad de cada contenedor
@@ -99,7 +99,7 @@ C4Component
     Rel(cliente, backend, "Consulta y recibe cambios", "HTTPS y WebSocket")
     Rel(espacio, asistente, "Consulta con sesión", "HTTPS")
 
-    UpdateLayoutConfig(3, 1)
+    UpdateLayoutConfig("3", "1")
 ```
 
 | Componente | Archivo |
