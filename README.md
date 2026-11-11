@@ -48,6 +48,7 @@ El diseño aplica los tres niveles emocionales de Don Norman:
 - **Destino explícito del ahorro:** el usuario confirma a qué meta aporta. Si el destino es ambiguo, se solicita su selección.
 - **Una maceta por meta:** seis etapas de crecimiento según el porcentaje ahorrado, selección de la maceta para consultar su estado y registro del aporte con su destino preseleccionado. El jardín general promedia las metas personales y grupales; también se puede filtrar por espacio. El plazo orienta el mensaje sin quitar el crecimiento conseguido.
 - **Colaboración real:** varias personas pueden aportar a una meta y recibir actualizaciones en tiempo real.
+- **Historial por integrante:** cada aporte identifica a su autor, monto, fecha y meta. El resumen por integrante excluye los movimientos revertidos y separa los grupos.
 - **Varios grupos y metas:** una cuenta puede participar en distintos grupos, cada uno con varias metas.
 - **Invitación con aprobación:** el código o enlace genera una solicitud; el administrador decide si la persona ingresa.
 - **Privacidad por usuario y grupo:** los gastos e ingresos personales permanecen privados. En el grupo se comparten los aportes asociados a sus metas.

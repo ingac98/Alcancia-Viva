@@ -5,6 +5,7 @@ import type { Snapshot, Profile, Preferences, Movement, Member, Request, Goal } 
 import { interpretLocally, learningKey, localDate, soles, weekExpenses } from './domain';
 import { ALL_SPACES, gardenSummary, goalsForScope, movementPreset } from './garden';
 import { Garden, GoalCard } from './GardenView';
+import { MovementHistory } from './MovementHistory';
 import { SpeechService } from '../services/voice/speechService';
 import './live.css';
 
@@ -100,7 +101,6 @@ function Workspace({session}:{session:Session}) {
   const spent=currentExpenses.reduce((s,m)=>s+m.amount,0);
   const garden=gardenSummary(selectedGoals);
   const groupAdmin=Boolean(selectedGroup&&data.roles[groupId]==='admin');
-  const spaceMovements=isOverview?data.movements:selectedGroup?data.movements.filter(m=>m.group_id===groupId):mine.filter(m=>!m.group_id);
   function openComposer(goal?:Goal){setComposerGoalId(goal?.id||'');setComposer(true);}
   useEffect(()=>{const timer=window.setInterval(()=>setToday(localDate()),60000);return()=>window.clearInterval(timer);},[]);
   useEffect(()=>{if(!watering)return;const timer=window.setTimeout(()=>setWatering(null),1600);return()=>window.clearTimeout(timer);},[watering]);
@@ -241,10 +241,7 @@ function Workspace({session}:{session:Session}) {
               <button disabled={busy} onClick={()=>act(async()=>{await rpc('decide_group_request',{p_request:r.id,p_approve:true});await refresh();setMessage('Solicitud aprobada.');})}>Aprobar</button>
               <button className="av-secondary" disabled={busy} onClick={()=>act(async()=>{await rpc('decide_group_request',{p_request:r.id,p_approve:false});await refresh();setMessage('Solicitud rechazada.');})}>Rechazar</button></div>)}</>}
         </section>}</>}
-      {tab==='history'&&<><h1>{selectedGroup?'Aportes del grupo':'Mis movimientos'}</h1><p>Los movimientos revertidos se conservan identificados para mantener el historial.</p>
-        {spaceMovements.map(m=><article className="av-card av-movement" key={m.id}><div><h2>{movementNames[m.type]} · {soles(m.amount)}</h2><p>{m.description||m.category} · {m.occurred_on}</p><p>{m.goal_id?`Meta: ${data.goals.find(g=>g.id===m.goal_id)?.title||'Meta registrada'}`:`Categoría: ${m.category}`}</p>{m.reversed_at&&<strong>Revertido</strong>}</div>
-          {m.user_id===userId&&!m.reversed_at&&<button className="av-secondary" disabled={busy} onClick={()=>act(async()=>{await rpc('reverse_movement',{p_id:m.id});await refresh();setMessage('Movimiento revertido; actualizamos el avance.');})}>Deshacer</button>}</article>)}
-        {spaceMovements.length===0&&<p>Aún no hay movimientos.</p>}</>}
+      {tab==='history'&&<MovementHistory snapshot={data} profile={profile} scope={groupId} busy={busy} onUndo={id=>act(async()=>{await rpc('reverse_movement',{p_id:id});await refresh();setMessage('Movimiento revertido; actualizamos el avance.');})}/>}
       {tab==='assistant'&&<><h1>Un paso a la vez</h1><p>Soy el asistente de IA de Alcancía Viva. Puedo ayudarte a comprender tus registros; las propuestas no mueven dinero ni crean aportes.</p>
         <div role="log" aria-label="Conversación con el asistente" aria-live="polite">{chat.map((item,i)=><section className="av-card" key={i}><p><strong>Tú:</strong> {item.question}</p><p><strong>Asistente:</strong> {item.answer}</p><button className="av-secondary" onClick={()=>SpeechService.speak(item.answer)}>Escuchar respuesta</button></section>)}</div>
         <form onSubmit={askAssistant} className="av-card"><label>¿Qué quieres comprender?<textarea value={assistantQuestion} onChange={e=>setAssistantQuestion(e.target.value)} required maxLength={1500}/></label><button disabled={busy}>{busy?'Consultando…':'Consultar al asistente'}</button></form></>}

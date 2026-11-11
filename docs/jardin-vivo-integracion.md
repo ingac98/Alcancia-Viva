@@ -46,3 +46,15 @@ Al terminar se cerró la sesión temporal y se eliminaron las dos cuentas, sus p
 Al validar esta entrega, `main` conserva el commit `4550799af0f738e98b609d2ebdfb1771766fe78a` y producción conserva el despliegue `6af495ab649355510d85cfa9`. La versión integrada se publicó exclusivamente en el alias `jardin-integrado`, despliegue `6af4ca5e797c1d1c7f80f2b5`.
 
 Los recursos visuales y sus instrucciones se documentan en [public/garden/README.md](../public/garden/README.md) y [jardin-assets-prompts.json](jardin-assets-prompts.json).
+
+## Historial de aportes por integrante
+
+Movimientos identifica el autor de cada registro, su importe en soles, fecha y meta. Los registros del propio usuario incluyen «(tú)». En la vista general se identifica también el grupo de cada aporte.
+
+El resumen por integrante y grupo suma únicamente aportes vigentes. Los revertidos conservan su autor y monto original en el historial, con la aclaración de que ya no cuentan en el total. «Deshacer» sigue disponible solo para el autor de un movimiento vigente.
+
+Los nombres se consultan con `group_people`, que ya comprueba la pertenencia al grupo. La carga es independiente de las cifras del historial y ocurre solo al abrir Movimientos. No se modifican tablas, políticas ni funciones de Supabase. Si una persona ya no está en el listado de integrantes o no se puede resolver su nombre, se muestra «Integrante no disponible»; no se inventa una identidad ni se expone su correo.
+
+`npm run test:history` comprueba atribución por grupo, totales en céntimos, exclusión de revertidos y duplicados, filtros y permiso de reversión. Junto con las pruebas del jardín, se validan 22 casos automatizados.
+
+En navegador se verificaron dos autores distintos, importes de S/ 100 y S/ 50, un aporte de S/ 10 previamente revertido, filtros de espacio y reversión del aporte propio. Tras deshacer los S/ 100, el resumen quedó en S/ 50 para el otro integrante y los tres registros se conservaron. El gasto privado del segundo usuario no fue visible. A 320 px se observaron 305 px útiles y 305 px de contenido, sin desbordamiento horizontal; la consola no registró errores en esa revisión. Las dos cuentas y todos sus datos temporales se eliminaron al terminar.
