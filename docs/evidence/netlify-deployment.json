@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-11",
+  "url": "https://alcancia-viva-jardin.netlify.app",
+  "repository": "https://github.com/ingac98/Alcancia-Viva",
+  "source_commit": "0766edc2c40425c044f6bfd79c47daa9d278efb1",
+  "netlify_site_id": "2d6b257c-cdff-46f9-ba95-5852aab7a7d4",
+  "netlify_deploy_id": "6af412b8c96fa7632280437f",
+  "deploy_state": "ready",
+  "https_status": 200,
+  "http_redirect_status": 301,
+  "service_worker_status": 200,
+  "service_worker_cache_control": "no-cache",
+  "real_auth_login_verified": true,
+  "realtime_connection_visible": true,
+  "live_groq_advice_verified": true,
+  "assistant_currency": "PEN",
+  "synthetic_income_reported": "S/ 120.00",
+  "synthetic_expense_reported": "S/ 20.00",
+  "synthetic_qa_account_and_movements_removed": true,
+  "auth_site_url_change_confirmed_by_owner": true,
+  "automatic_github_deploys_enabled": false
+}
+
