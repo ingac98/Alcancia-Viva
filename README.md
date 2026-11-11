@@ -2,6 +2,8 @@
 
 Educación financiera con un jardín realista, registro por voz o texto y metas compartidas. Proyecto CC451 de Interacción Humano Computadora, UNI. Datos de práctica; no conecta bancos ni mueve dinero real.
 
+**Aplicación publicada:** [alcancia-viva-jardin.netlify.app](https://alcancia-viva-jardin.netlify.app). Código del equipo: [ingac98/Alcancia-Viva](https://github.com/ingac98/Alcancia-Viva).
+
 ## Versión colaborativa
 
 La entrada principal utiliza `src/live/CollaborativeApp.tsx`. Esta carpeta contiene la versión colaborativa preparada para publicar desde GitHub en Netlify.
@@ -53,7 +55,7 @@ Se verificaron autenticación real, aprobación, aislamiento de gastos, múltipl
 
 Esta es una primera implementación funcional, no una certificación del 70 % ni de WCAG. La voz debe probarse con micrófono real, y faltan auditoría axe, pruebas con lectores de pantalla y usuarios, validación completa sin conexión y mediciones de rendimiento. También quedan el historial evolutivo avanzado, eliminación de cuenta, reglas más completas del jardín y las ampliaciones SCAMPER que se decida incluir.
 
-El despliegue en Netlify se configura con `netlify.toml`; el procedimiento y la actualización del enlace de confirmación de correo están en [docs/NETLIFY.md](docs/NETLIFY.md). No se considera completada la migración hasta verificar el dominio definitivo y el acceso de usuarios.
+La versión publicada se compiló desde este repositorio y se desplegó con la herramienta oficial de Netlify. Las cuentas y los grupos permanecen en el mismo proyecto de Supabase. El procedimiento y la actualización del enlace de confirmación de correo están en [docs/NETLIFY.md](docs/NETLIFY.md). La publicación automática por cada cambio de GitHub requiere enlazar el repositorio desde Netlify; no está activada en este despliegue.
 
 ## Equipo y licencia
 
