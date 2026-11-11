@@ -11,6 +11,8 @@
 
 **[Abrir la aplicación](https://alcancia-viva-jardin.netlify.app)** · **[Repositorio del equipo](https://github.com/ingac98/Alcancia-Viva)** · **[Guía de instalación](docs/INSTALL.md)** · **[Datos simulados](data/mock_data.json)**
 
+En la rama `feat/jardin-vivo-por-metas` se puede [probar el jardín dinámico integrado](https://jardin-integrado--alcancia-viva-jardin.netlify.app). Esta versión tiene un despliegue separado; `main` y la página de exposición conservan su versión actual. [Alcance y validación del jardín](docs/jardin-vivo-integracion.md).
+
 ![Jardín floreciente de Alcancía Viva](public/garden/floreciente.png)
 
 ## Contenido
@@ -44,7 +46,7 @@ El diseño aplica los tres niveles emocionales de Don Norman:
 
 - **Registro multimodal:** entrada por voz, texto y formulario, con transcripción revisable y lectura de respuestas.
 - **Destino explícito del ahorro:** el usuario confirma a qué meta aporta. Si el destino es ambiguo, se solicita su selección.
-- **Jardín vinculado al progreso:** muestra crecimiento y florecimiento según los aportes de las metas del espacio elegido; ofrece una descripción textual equivalente.
+- **Una maceta por meta:** seis etapas de crecimiento según el porcentaje ahorrado, selección de la maceta para consultar su estado y registro del aporte con su destino preseleccionado. El jardín general promedia las metas personales y grupales; también se puede filtrar por espacio. El plazo orienta el mensaje sin quitar el crecimiento conseguido.
 - **Colaboración real:** varias personas pueden aportar a una meta y recibir actualizaciones en tiempo real.
 - **Varios grupos y metas:** una cuenta puede participar en distintos grupos, cada uno con varias metas.
 - **Invitación con aprobación:** el código o enlace genera una solicitud; el administrador decide si la persona ingresa.

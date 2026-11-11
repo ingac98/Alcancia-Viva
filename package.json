@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Educación financiera personal con un ecosistema vivo e interfaces no convencionales",
   "scripts": {
+    "test:garden": "node --experimental-strip-types --test tests/garden-live.test.mjs tests/garden-preview.test.mjs",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",

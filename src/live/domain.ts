@@ -32,9 +32,3 @@ export function weekExpenses(movements:Movement[], now=new Date()) {
   const start=anchor.toISOString().slice(0,10);
   return movements.filter(m=>m.type==='expense'&&!m.reversed_at&&m.occurred_on>=start&&m.occurred_on<=day);
 }
-export function gardenState(goals:Goal[]) {
-  const target=goals.reduce((s,g)=>s+g.target_amount,0);
-  const saved=goals.reduce((s,g)=>s+Math.min(g.current_amount,g.target_amount),0);
-  const percent=target>0?Math.round(saved/target*100):0;
-  return {percent,saved,target,flourishing:percent>=50,label:target===0?'Un nuevo comienzo':percent>=50?'Tu jardín está floreciendo':'Tu jardín está creciendo'};
-}

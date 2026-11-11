@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @source not "../public/design";
-@source not "../tests/garden-preview.test.mjs";
+@source not "../tests";
 @source not "../docs/jardin-vivo-preview.md";
 @source not "../docs/jardin-assets-prompts.json";
+@source not "../docs/jardin-vivo-integracion.md";
 
 @layer base {
   html {

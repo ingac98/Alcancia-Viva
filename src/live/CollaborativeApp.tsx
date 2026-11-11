@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { database, requireDatabase, rpc, loadSnapshot, emptySnapshot } from './client';
-import type { Snapshot, Profile, Preferences, Movement, Member, Request } from './client';
-import { gardenState, interpretLocally, learningKey, localDate, soles, weekExpenses } from './domain';
+import type { Snapshot, Profile, Preferences, Movement, Member, Request, Goal } from './client';
+import { interpretLocally, learningKey, localDate, soles, weekExpenses } from './domain';
+import { ALL_SPACES, gardenSummary, goalsForScope, movementPreset } from './garden';
+import { Garden, GoalCard } from './GardenView';
 import { SpeechService } from '../services/voice/speechService';
 import './live.css';
 
@@ -75,11 +77,14 @@ function Auth() {
 function Workspace({session}:{session:Session}) {
   const userId=session.user.id;
   const [profile,setProfile]=useState<Profile|null>(null),[profileReady,setProfileReady]=useState(false);
-  const [data,setData]=useState<Snapshot>(emptySnapshot),[tab,setTab]=useState('garden'),[groupId,setGroupId]=useState('');
+  const [data,setData]=useState<Snapshot>(emptySnapshot),[tab,setTab]=useState('garden'),[groupId,setGroupId]=useState(ALL_SPACES);
   const [message,setMessage]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
   const [online,setOnline]=useState(navigator.onLine),[connected,setConnected]=useState(false);
   const [people,setPeople]=useState<{members:Member[];requests:Request[]}>({members:[],requests:[]});
   const [composer,setComposer]=useState(false),[pending,setPending]=useState(0);
+  const [composerGoalId,setComposerGoalId]=useState(''),[selectedGoalId,setSelectedGoalId]=useState('');
+  const [watering,setWatering]=useState<{goalId:string;nonce:number}|null>(null);
+  const [today,setToday]=useState(()=>localDate());
   const [notice,setNotice]=useState(''),[chat,setChat]=useState<{question:string;answer:string}[]>([]);
   const [assistantQuestion,setAssistantQuestion]=useState('');
   const [onboardingName,setOnboardingName]=useState(session.user.user_metadata.display_name||'');
@@ -88,12 +93,17 @@ function Workspace({session}:{session:Session}) {
   const prefs={...defaults,...profile?.preferences};
   const reloadCounter=useRef(0);
   const selectedGroup=data.groups.find(g=>g.id===groupId);
-  const selectedGoals=data.goals.filter(g=>groupId?g.group_id===groupId:g.group_id===null);
+  const isOverview=groupId===ALL_SPACES;
+  const selectedGoals=goalsForScope(data.goals,groupId);
   const mine=data.movements.filter(m=>m.user_id===userId);
   const currentExpenses=weekExpenses(mine);
   const spent=currentExpenses.reduce((s,m)=>s+m.amount,0);
-  const garden=gardenState(selectedGoals);
-  const groupAdmin=groupId&&data.roles[groupId]==='admin';
+  const garden=gardenSummary(selectedGoals);
+  const groupAdmin=Boolean(selectedGroup&&data.roles[groupId]==='admin');
+  const spaceMovements=isOverview?data.movements:selectedGroup?data.movements.filter(m=>m.group_id===groupId):mine.filter(m=>!m.group_id);
+  function openComposer(goal?:Goal){setComposerGoalId(goal?.id||'');setComposer(true);}
+  useEffect(()=>{const timer=window.setInterval(()=>setToday(localDate()),60000);return()=>window.clearInterval(timer);},[]);
+  useEffect(()=>{if(!watering)return;const timer=window.setTimeout(()=>setWatering(null),1600);return()=>window.clearTimeout(timer);},[watering]);
   const refresh=useCallback(async()=>{
     const version=++reloadCounter.current;
     const snapshot=await loadSnapshot(userId);
@@ -136,10 +146,10 @@ function Workspace({session}:{session:Session}) {
   },[Boolean(profile),refresh]);
   useEffect(()=>{
     let alive=true;
-    if(!groupId){setPeople({members:[],requests:[]});return;}
+    if(!selectedGroup){setPeople({members:[],requests:[]});return;}
     rpc<{members:Member[];requests:Request[]}>('group_people',{p_group:groupId}).then(p=>{if(alive)setPeople(p);}).catch(e=>{if(alive)setError(errorMessage(e));});
     return()=>{alive=false;};
-  },[groupId,data]);
+  },[groupId,data,Boolean(selectedGroup)]);
   useEffect(()=>{
     const code=new URLSearchParams(location.search).get('invite');
     if(code){setTab('groups');setNotice('Hay una invitación en el enlace. Revisa el código y envía tu solicitud.');}
@@ -171,6 +181,7 @@ function Workspace({session}:{session:Session}) {
       catch{setNotice('El movimiento se guardó; no se pudo actualizar la categoría aprendida.');}
     }
     await refresh();
+    if(m.type==='savings'&&m.goal_id)setWatering({goalId:m.goal_id,nonce:Date.now()});
   }
   async function askAssistant(e:React.FormEvent){
     e.preventDefault();const question=assistantQuestion.trim();if(!question)return;
@@ -197,25 +208,22 @@ function Workspace({session}:{session:Session}) {
       <p className="av-connection" role="status">{!online?'Sin conexión':connected?'Conectado en tiempo real':'Conectando actualizaciones…'}</p>
     </nav>
     <main id="av-main" tabIndex={-1} className="av-main">
-      <div className="av-toolbar"><label>Tu espacio<select value={groupId} onChange={e=>{setGroupId(e.target.value);setError('');}}><option value="">Personal</option>{data.groups.map(g=><option key={g.id} value={g.id}>{g.name}</option>)}</select></label>
-        <button onClick={()=>setComposer(true)}>+ Registrar movimiento</button></div>
+      <div className="av-toolbar"><label>Tu espacio<select value={groupId} onChange={e=>{setGroupId(e.target.value);setError('');}}><option value={ALL_SPACES}>Todas mis metas</option><option value="">Personal</option>{data.groups.map(g=><option key={g.id} value={g.id}>{g.name}</option>)}</select></label>
+        <button onClick={()=>openComposer()}>+ Registrar movimiento</button></div>
       <div role="status" aria-live="polite" className={message?'av-notice':''}>{message}</div>
       {error&&<p role="alert" className="av-error">{error}</p>}{notice&&<p className="av-notice">{notice}<button className="av-link" onClick={()=>setNotice('')}>Cerrar aviso</button></p>}
       {pending>0&&<p role="status">{pending} movimiento(s) pendiente(s). <button className="av-link" disabled={!online||busy} onClick={()=>act(flushQueue)}>Reintentar sincronización</button></p>}
       {tab==='garden'&&<>
-        <p className="av-eyebrow">{selectedGroup?`JARDÍN COMPARTIDO · ${selectedGroup.name}`:'TU ESPACIO PARA CRECER'}</p>
-        <h1>{garden.label}</h1><p>{prefs.simple?'Cada aporte cuenta.':'Tu progreso se construye con pequeños pasos, a tu ritmo.'}</p>
-        <figure className="av-garden"><img src={garden.flourishing?'/garden/floreciente.png':'/garden/crecimiento.png'} alt={garden.flourishing?'El mismo jardín con abundantes flores abiertas':'Jardín con plantas verdes, brotes y primeras flores'}/>
-          <figcaption><strong>{garden.label}</strong><span>{garden.target?`${soles(garden.saved)} de ${soles(garden.target)} · ${garden.percent}% de las metas de este espacio`:'Crea tu primera meta para comenzar a ver tu progreso.'}</span></figcaption></figure>
-        <button className="av-secondary" onClick={()=>SpeechService.speak(`${garden.label}. ${garden.target?`Llevas ${garden.percent} por ciento de tus metas.`:'Aún no tienes metas.'}`)}>Escuchar estado del jardín</button>
-        <div className="av-stats"><section className="av-card"><h2>Ahorro de este espacio</h2><strong>{soles(garden.saved)}</strong><p>{selectedGoals.length} meta(s) · las flores aparecen al alcanzar el 50 % conjunto.</p></section>
+        <Garden goals={selectedGoals} groups={data.groups} selectedId={selectedGoalId} today={today} prefs={prefs} onSelect={setSelectedGoalId} onContribute={openComposer} onCreate={()=>setTab('goals')} watering={watering}/>
+        <div className="av-stats"><section className="av-card"><h2>Avance conjunto de tus metas</h2><strong>{soles(garden.saved)}</strong><p>{selectedGoals.length} meta(s){isOverview?' personales y compartidas':selectedGroup?` de ${selectedGroup.name}`:' personales'}. Cada planta crece según su propio avance.</p></section>
           <section className="av-card"><h2>Tu presupuesto semanal</h2><strong>{soles(spent)} de {soles(prefs.weeklyBudget)}</strong><p>Solo tus gastos de esta semana, de lunes a hoy.</p><progress max={prefs.weeklyBudget} value={Math.min(spent,prefs.weeklyBudget)} aria-label="Gasto respecto al presupuesto semanal"/>
             <p>{spent>prefs.weeklyBudget?'Superaste el presupuesto que elegiste. Puedes revisar tus categorías y ajustar el próximo paso.':'Puedes revisar tus movimientos cuando lo necesites.'}</p></section></div>
       </>}
       {tab==='goals'&&<><h1>{selectedGroup?`Metas de ${selectedGroup.name}`:'Mis metas'}</h1><p>Un ahorro se suma únicamente a la meta que confirmes.</p>
-        {(!groupId||groupAdmin)&&<GoalForm groupId={groupId} busy={busy} onCreate={(title,amount,date)=>act(async()=>{await rpc('create_goal',{p_title:title,p_amount:amount,p_date:date,p_group:groupId||null});await refresh();setMessage('Meta creada.');})}/>}
-        {!!groupId&&!groupAdmin&&<p>El administrador crea las metas. Todos los miembros pueden aportar.</p>}
-        <div className="av-cards">{selectedGoals.map(g=><article className="av-card" key={g.id}><h2>{g.title}</h2><p>{soles(g.current_amount)} de {soles(g.target_amount)}</p><progress max={g.target_amount} value={Math.min(g.current_amount,g.target_amount)} aria-label={`Progreso de ${g.title}`}/><p>Fecha objetivo: {g.target_date}</p><button onClick={()=>setComposer(true)}>Registrar un aporte</button></article>)}</div>
+        {isOverview&&<p>Al crear aquí una meta será personal. Para crear una meta compartida, elige su grupo en «Tu espacio».</p>}
+        {(!selectedGroup||groupAdmin)&&<GoalForm groupId={selectedGroup?.id||''} busy={busy} onCreate={(title,amount,date)=>act(async()=>{const id=await rpc<string>('create_goal',{p_title:title,p_amount:amount,p_date:date,p_group:selectedGroup?.id||null});await refresh();setSelectedGoalId(id);setMessage('Meta creada. Plantamos una nueva maceta; el ahorro de tus otras metas se conserva.');})}/>}
+        {!!selectedGroup&&!groupAdmin&&<p>El administrador crea las metas. Todos los miembros pueden aportar.</p>}
+        <div className="av-cards">{selectedGoals.map(g=><GoalCard key={g.id} goal={g} groups={data.groups} today={today} onView={()=>{setSelectedGoalId(g.id);setTab('garden');}} onContribute={()=>openComposer(g)}/>)}</div>
         {!selectedGoals.length&&<p>Aún no hay metas en este espacio.</p>}</>}
       {tab==='groups'&&<><h1>Ahorrar también es compartir</h1><p>Puedes pertenecer a varios grupos. Tus gastos personales se mantienen privados.</p>
         <GroupForms busy={busy} onCreate={name=>act(async()=>{const r=await rpc<{group_id:string}>('create_group',{p_name:name});await refresh();setGroupId(r.group_id);setMessage('Grupo creado. Ya puedes crear metas e invitar.');})}
@@ -234,9 +242,9 @@ function Workspace({session}:{session:Session}) {
               <button className="av-secondary" disabled={busy} onClick={()=>act(async()=>{await rpc('decide_group_request',{p_request:r.id,p_approve:false});await refresh();setMessage('Solicitud rechazada.');})}>Rechazar</button></div>)}</>}
         </section>}</>}
       {tab==='history'&&<><h1>{selectedGroup?'Aportes del grupo':'Mis movimientos'}</h1><p>Los movimientos revertidos se conservan identificados para mantener el historial.</p>
-        {(groupId?data.movements.filter(m=>m.group_id===groupId):mine).map(m=><article className="av-card av-movement" key={m.id}><div><h2>{movementNames[m.type]} · {soles(m.amount)}</h2><p>{m.description||m.category} · {m.occurred_on}</p><p>{m.goal_id?`Meta: ${data.goals.find(g=>g.id===m.goal_id)?.title||'Meta registrada'}`:`Categoría: ${m.category}`}</p>{m.reversed_at&&<strong>Revertido</strong>}</div>
+        {spaceMovements.map(m=><article className="av-card av-movement" key={m.id}><div><h2>{movementNames[m.type]} · {soles(m.amount)}</h2><p>{m.description||m.category} · {m.occurred_on}</p><p>{m.goal_id?`Meta: ${data.goals.find(g=>g.id===m.goal_id)?.title||'Meta registrada'}`:`Categoría: ${m.category}`}</p>{m.reversed_at&&<strong>Revertido</strong>}</div>
           {m.user_id===userId&&!m.reversed_at&&<button className="av-secondary" disabled={busy} onClick={()=>act(async()=>{await rpc('reverse_movement',{p_id:m.id});await refresh();setMessage('Movimiento revertido; actualizamos el avance.');})}>Deshacer</button>}</article>)}
-        {(groupId?data.movements.filter(m=>m.group_id===groupId):mine).length===0&&<p>Aún no hay movimientos.</p>}</>}
+        {spaceMovements.length===0&&<p>Aún no hay movimientos.</p>}</>}
       {tab==='assistant'&&<><h1>Un paso a la vez</h1><p>Soy el asistente de IA de Alcancía Viva. Puedo ayudarte a comprender tus registros; las propuestas no mueven dinero ni crean aportes.</p>
         <div role="log" aria-label="Conversación con el asistente" aria-live="polite">{chat.map((item,i)=><section className="av-card" key={i}><p><strong>Tú:</strong> {item.question}</p><p><strong>Asistente:</strong> {item.answer}</p><button className="av-secondary" onClick={()=>SpeechService.speak(item.answer)}>Escuchar respuesta</button></section>)}</div>
         <form onSubmit={askAssistant} className="av-card"><label>¿Qué quieres comprender?<textarea value={assistantQuestion} onChange={e=>setAssistantQuestion(e.target.value)} required maxLength={1500}/></label><button disabled={busy}>{busy?'Consultando…':'Consultar al asistente'}</button></form></>}
@@ -249,7 +257,7 @@ function Workspace({session}:{session:Session}) {
         <details><summary>Ayuda y privacidad</summary><p>Para registrar, elige gasto, ingreso o ahorro. Un ahorro requiere meta. Para compartir, crea un grupo o solicita ingreso con un código y espera aprobación. Puedes usar texto sin micrófono; todas las acciones son accesibles mediante teclado. Usamos datos de práctica. Si consultas a la IA, se envía tu pregunta y un resumen de tus registros a Groq.</p></details>
       </section></>}
     </main></div>
-    {composer&&<MovementComposer data={data} profile={profile} groupId={groupId} audio={prefs.audio} onClose={()=>setComposer(false)} onSave={saveMovement}/>}
+    {composer&&<MovementComposer data={data} profile={profile} groupId={selectedGroup?.id||''} initialGoalId={composerGoalId} audio={prefs.audio} onClose={()=>setComposer(false)} onSave={saveMovement}/>}
   </div>;
 }
 
@@ -262,12 +270,13 @@ function GroupForms({busy,onCreate,onJoin}:{busy:boolean;onCreate:(name:string)=
     <form className="av-card" onSubmit={e=>{e.preventDefault();onJoin(String(new FormData(e.currentTarget).get('code')));}}><h2>Unirme a un grupo</h2><label>Código de invitación<input name="code" required defaultValue={new URLSearchParams(location.search).get('invite')||''}/></label><button disabled={busy}>Solicitar ingreso</button></form></div>;
 }
 
-function MovementComposer({data,profile,groupId,audio,onClose,onSave}:{data:Snapshot;profile:Profile;groupId:string;audio:boolean;onClose:()=>void;onSave:(m:Movement,phrase:string,category:string)=>Promise<void>}) {
+function MovementComposer({data,profile,groupId,initialGoalId,audio,onClose,onSave}:{data:Snapshot;profile:Profile;groupId:string;initialGoalId:string;audio:boolean;onClose:()=>void;onSave:(m:Movement,phrase:string,category:string)=>Promise<void>}) {
   const dialog=useRef<HTMLDialogElement>(null),phraseInput=useRef<HTMLTextAreaElement>(null);
   const previousFocus=useRef(document.activeElement as HTMLElement|null);
   const id=useRef(crypto.randomUUID()),processing=useRef(false);
-  const [phrase,setPhrase]=useState(''),[type,setType]=useState<Movement['type']|''>(''),[amount,setAmount]=useState(''),[category,setCategory]=useState('');
-  const [goalId,setGoalId]=useState(''),[destination,setDestination]=useState(groupId),[source,setSource]=useState<Movement['source']>('manual');
+  const preset=movementPreset(data.goals,groupId,initialGoalId);
+  const [phrase,setPhrase]=useState(''),[type,setType]=useState<Movement['type']|''>(preset.type),[amount,setAmount]=useState(''),[category,setCategory]=useState('');
+  const [goalId,setGoalId]=useState(preset.goalId),[destination,setDestination]=useState(preset.destination),[source,setSource]=useState<Movement['source']>('manual');
   const [error,setError]=useState(''),[info,setInfo]=useState(''),[listening,setListening]=useState(false),[busy,setBusy]=useState(false),[originalCategory,setOriginalCategory]=useState('');
   const [date,setDate]=useState(localDate());
   useEffect(()=>{dialog.current?.showModal();phraseInput.current?.focus();return()=>{SpeechService.stopListening();previousFocus.current?.focus();};},[]);

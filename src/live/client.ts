@@ -12,6 +12,7 @@ export const requireDatabase = () => {
 export interface Goal {
   id: string; title: string; owner_id: string; group_id: string | null;
   target_amount: number; target_date: string; current_amount: number;
+  created_at?: string | null; archived?: boolean;
 }
 export interface Movement {
   id: string; user_id: string; type: 'expense' | 'income' | 'savings'; amount: number;

@@ -9,4 +9,13 @@ Prompt inicial: "Create a landscape photograph of a small beautiful realistic ga
 
 Prompt de edición: "Preserve exactly the camera angle, stone path, tree, background wall, light and garden layout. Change only flowering plants: replace abundant open flowers with young green plants and mostly closed buds, a few small flowers beginning to open. The garden remains cared for, healthy, realistic, welcoming, never dead or punished."
 
-Regla actual de prototipo: sin metas se muestra inicio; con metas, crecimiento; al alcanzar el 50 % agregado del objetivo de las metas del espacio elegido, florecimiento. La regla y los importes se explican en texto; no depende del presupuesto de gastos ni castiga un gasto necesario. La reversión de un aporte recalcula el avance.
+Las imágenes anteriores se conservan para la bienvenida y la referencia visual original.
+
+## Macetas dinámicas
+
+- `courtyard.webp`: patio natural de 1440 × 960 píxeles, con el suelo despejado para colocar macetas.
+- `cosmos-stages.webp`: sprite transparente de 1536 × 1024 píxeles, en tres columnas y dos filas. Incluye semilla, brote, planta joven, planta con botones, primeras flores y floración completa.
+
+Estos recursos se generaron con la herramienta integrada de imágenes y se optimizaron a WebP conservando el canal alfa. Se muestran como capas con apariencia tridimensional, sin modelos 3D navegables. [Prompts de generación y ajuste](../../docs/jardin-assets-prompts.json).
+
+Cada meta tiene una maceta de tamaño constante: solo crece el follaje. Las seis etapas dependen del porcentaje ahorrado (0 %, 1–24 %, 25–49 %, 50–74 %, 75–99 %, 100 %). El promedio general da el mismo peso a cada meta visible y no duplica metas compartidas. La fecha orienta el mensaje; una demora no mata la planta ni borra el ahorro. La reversión de un aporte recalcula el avance.
