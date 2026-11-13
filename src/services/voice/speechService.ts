@@ -1,4 +1,6 @@
 // Servicio de reconocimiento y síntesis de voz usando Web Speech API estándar
+import { createSpeechPlayback } from './speechPlayback';
+import type { PlaybackState } from './speechPlayback';
 
 export interface SpeechRecognitionResultPayload {
   transcript: string;
@@ -6,6 +8,16 @@ export interface SpeechRecognitionResultPayload {
 }
 
 export class SpeechService {
+  private static playback:ReturnType<typeof createSpeechPlayback>|null=null;
+  private static getPlayback(){
+    if(!this.isSynthesisSupported())return null;
+    if(!this.playback)this.playback=createSpeechPlayback(window.speechSynthesis,text=>new SpeechSynthesisUtterance(text));
+    return this.playback;
+  }
+  static getPlaybackState():PlaybackState{return this.getPlayback()?.getState()||{id:null,status:'idle'};}
+  static subscribePlayback(listener:(state:PlaybackState)=>void){return this.getPlayback()?.subscribe(listener)||(()=>{});}
+  static pauseSpeaking(id:number){this.getPlayback()?.pause(id);}
+  static resumeSpeaking(id:number){this.getPlayback()?.resume(id);}
   private static recognition: any = null;
   private static isListening: boolean = false;
 
@@ -87,24 +99,10 @@ export class SpeechService {
   }
 
   static speak(text: string, rate: number = 1.0, onEnd?: () => void) {
-    if (!this.isSynthesisSupported()) return;
-
-    window.speechSynthesis.cancel(); // Detener pronunciaciones previas
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = import.meta.env.VITE_SPEECH_LANG || 'es-PE';
-    utterance.rate = rate;
-
-    if (onEnd) {
-      utterance.onend = onEnd;
-    }
-
-    window.speechSynthesis.speak(utterance);
+    return this.getPlayback()?.speak(text,rate,import.meta.env.VITE_SPEECH_LANG||'es-PE',onEnd)??null;
   }
 
   static stopSpeaking() {
-    if (this.isSynthesisSupported()) {
-      window.speechSynthesis.cancel();
-    }
+    this.getPlayback()?.stop();
   }
 }

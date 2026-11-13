@@ -7,6 +7,7 @@ import { ALL_SPACES, gardenSummary, goalsForScope, movementPreset } from './gard
 import { Garden, GoalCard } from './GardenView';
 import { MovementHistory } from './MovementHistory';
 import { AssistantQuestionForm } from './AssistantQuestionForm';
+import { AnswerAudio } from './AnswerAudio';
 import { SpeechService } from '../services/voice/speechService';
 import './live.css';
 
@@ -244,7 +245,7 @@ function Workspace({session}:{session:Session}) {
         </section>}</>}
       {tab==='history'&&<MovementHistory snapshot={data} profile={profile} scope={groupId} busy={busy} onUndo={id=>act(async()=>{await rpc('reverse_movement',{p_id:id});await refresh();setMessage('Movimiento revertido; actualizamos el avance.');})}/>}
       {tab==='assistant'&&<><h1>Un paso a la vez</h1><p>Soy el asistente de IA de Alcancía Viva. Puedo ayudarte a comprender tus registros; las propuestas no mueven dinero ni crean aportes.</p>
-        <div role="log" aria-label="Conversación con el asistente" aria-live="polite">{chat.map((item,i)=><section className="av-card" key={i}><p><strong>Tú:</strong> {item.question}</p><p><strong>Asistente:</strong> {item.answer}</p><button className="av-secondary" onClick={()=>SpeechService.speak(item.answer)}>Escuchar respuesta</button></section>)}</div>
+        <div role="log" aria-label="Conversación con el asistente" aria-live="polite">{chat.map((item,i)=><section className="av-card" key={i}><p><strong>Tú:</strong> {item.question}</p><p><strong>Asistente:</strong> {item.answer}</p><AnswerAudio answer={item.answer}/></section>)}</div>
         <AssistantQuestionForm question={assistantQuestion} onQuestion={setAssistantQuestion} busy={busy||composer} onSubmit={askAssistant}/></>}
       {tab==='settings'&&<><h1>A tu manera</h1><section className="av-card"><h2>Preferencias de accesibilidad</h2>
         {([['highContrast','Alto contraste'],['largeText','Texto grande (200 %)'],['reducedMotion','Reducir movimiento'],['simple','Mensajes sencillos'],['audio','Leer confirmaciones en voz alta']] as const).map(([key,label])=><label className="av-check" key={key}><input type="checkbox" checked={prefs[key]} disabled={busy} onChange={e=>act(async()=>{await updateProfile({...profile,preferences:{...prefs,[key]:e.target.checked}});setMessage('Preferencia guardada.');})}/>{label}</label>)}

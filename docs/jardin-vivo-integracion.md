@@ -68,3 +68,9 @@ El micrófono se libera al salir de Asistente, ocultar la pestaña o abrir el re
 La aplicación no almacena grabaciones. El reconocimiento lo gestiona el navegador y puede usar un servicio remoto o requerir conexión, según su implementación ([Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)).
 
 `npm run test:voice` comprueba transcripciones sucesivas, conservación de texto, permisos denegados o concedidos tarde, fallos de inicio, cierre de la escucha y el límite de 1500 caracteres. Son pruebas con un reconocedor simulado; no acreditan captación real de audio en todos los navegadores. Con jardín e historial suman 29 casos automatizados.
+
+## Pausar la lectura de una respuesta
+
+Cada respuesta mantiene «Escuchar respuesta». Al pulsarlo aparece únicamente en esa respuesta el control «Pausar»; cuando se pausa cambia a «Reanudar» y continúa la misma lectura. Se oculta al finalizar, ante un error, al cancelar para dictar o al escuchar otra respuesta. Al salir de Asistente se cancela su lectura, incluso si estaba pausada.
+
+El servicio de voz comparte el estado de reproducción para que el control no quede visible cuando otra acción sustituye el audio. `npm run test:playback` valida seis escenarios de inicio, pausa, reanudación, finalización, errores y cancelación. Con las pruebas anteriores suman 35 casos automatizados. Las transiciones se prueban con un sintetizador simulado.
