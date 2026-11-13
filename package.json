@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Educación financiera personal con un ecosistema vivo e interfaces no convencionales",
   "scripts": {
+    "test:recovery": "node --experimental-strip-types --test tests/password-recovery.test.mjs",
     "test:playback": "node --experimental-strip-types --test tests/speech-playback.test.mjs",
     "test:voice": "node --experimental-strip-types --test tests/question-dictation.test.mjs",
     "test:history": "node --experimental-strip-types --test tests/movement-history.test.mjs",

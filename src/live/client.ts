@@ -1,9 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
+import { createRecoveryTracker } from './recoveryFlow';
+
+let recoveryStorage: Storage | undefined;
+try { recoveryStorage = window.sessionStorage; } catch { /* Auth funciona sin este marcador opcional. */ }
+// Se captura antes de que el SDK consuma y retire el fragmento de recuperación.
+export const passwordRecovery = createRecoveryTracker(window.location.href, recoveryStorage);
 
 // Configuración pública; RLS y la sesión del usuario protegen los datos.
 const url = import.meta.env.VITE_SUPABASE_URL || 'https://ahnfwlmymthfgxpyoasz.supabase.co';
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_94DMzectGQjIV8bIE7-fEQ_EhUY0xko';
 export const database = url && key ? createClient(url, key) : null;
+database?.auth.onAuthStateChange((event, session) => passwordRecovery.observe(event, session?.user.id || null));
 export const requireDatabase = () => {
   if (!database) throw new Error('Falta configurar la conexión con Supabase.');
   return database;

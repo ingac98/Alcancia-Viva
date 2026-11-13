@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import { database, requireDatabase, rpc, loadSnapshot, emptySnapshot } from './client';
+import { database, requireDatabase, rpc, loadSnapshot, emptySnapshot, passwordRecovery } from './client';
+import { PasswordRecovery, RecoveryEmailForm } from './PasswordRecovery';
+import { cleanRecoveryUrl } from './recoveryFlow';
 import type { Snapshot, Profile, Preferences, Movement, Member, Request, Goal } from './client';
 import { interpretLocally, learningKey, localDate, soles, weekExpenses } from './domain';
 import { ALL_SPACES, gardenSummary, goalsForScope, movementPreset } from './garden';
@@ -21,8 +23,10 @@ function BrandIcon() {
 }
 
 export function CollaborativeApp() {
+  const recovery=useSyncExternalStore(passwordRecovery.subscribe,passwordRecovery.getSnapshot);
   const [session,setSession]=useState<Session|null>(null);
   const [ready,setReady]=useState(false);
+  useEffect(()=>{if(ready&&recovery==='expired')history.replaceState(history.state,'',cleanRecoveryUrl(location.href));},[ready,recovery]);
   useEffect(()=>{
     if(!database){setReady(true);return;}
     database.auth.getSession().then(({data})=>{setSession(data.session);setReady(true);});
@@ -31,10 +35,12 @@ export function CollaborativeApp() {
   },[]);
   if(!ready)return <main className="av-page"><p role="status">Preparando tu espacio…</p></main>;
   if(!database)return <main className="av-page"><h1>Alcancía Viva</h1><p>Configura la conexión con Supabase para usar las cuentas y los grupos.</p></main>;
+  if(recovery!=='none')return <PasswordRecovery userId={session?.user.id||null} valid={recovery==='active'&&Boolean(session)} onFinish={()=>passwordRecovery.finish()}/>;
   return session ? <Workspace key={session.user.id} session={session}/> : <Auth/>;
 }
 
 function Auth() {
+  const [recovering,setRecovering]=useState(false);
   const [signup,setSignup]=useState(false),[email,setEmail]=useState(''),[password,setPassword]=useState('');
   const [name,setName]=useState(''),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false);
   const [message,setMessage]=useState(''),[error,setError]=useState('');
@@ -60,7 +66,7 @@ function Auth() {
         <p>Comprende tus gastos, cuida tus metas y avanza junto a quienes tú elijas.</p>
         <img src="/garden/floreciente.png" alt="Jardín con flores rosadas, margaritas y un sendero de piedra"/>
       </div>
-      <section className="av-card" aria-labelledby="auth-title"><h2 id="auth-title">{signup?'Crea tu espacio':'Bienvenido a tu jardín'}</h2>
+      <section className="av-card" aria-labelledby="auth-title">{recovering?<RecoveryEmailForm initialEmail={email} onBack={()=>setRecovering(false)}/>:<><h2 id="auth-title">{signup?'Crea tu espacio':'Bienvenido a tu jardín'}</h2>
         <p>Organiza tus gastos, alcanza tus metas y haz crecer tu ahorro.</p>
         <form onSubmit={submit}>
           {signup&&<label>Tu nombre<input autoComplete="name" required maxLength={100} value={name} onChange={e=>setName(e.target.value)}/></label>}
@@ -71,7 +77,8 @@ function Auth() {
           <button disabled={busy}>{busy?'Un momento…':signup?'Crear cuenta':'Entrar'}</button>
         </form>
         {error&&<p role="alert" className="av-error">{error}</p>}{message&&<p role="status">{message}</p>}
-        <button className="av-link" onClick={()=>{setSignup(!signup);setError('');setMessage('');}}>{signup?'Ya tengo cuenta':'Quiero crear una cuenta'}</button>
+        {!signup&&<button className="av-link" disabled={busy} onClick={()=>{setRecovering(true);setPassword('');setError('');setMessage('');}}>¿Olvidaste tu contraseña?</button>}
+        <button className="av-link" disabled={busy} onClick={()=>{setSignup(!signup);setError('');setMessage('');}}>{signup?'Ya tengo cuenta':'Quiero crear una cuenta'}</button></>}
       </section>
     </section>
   </main>;
