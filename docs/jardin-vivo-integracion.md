@@ -58,3 +58,13 @@ Los nombres se consultan con `group_people`, que ya comprueba la pertenencia al 
 `npm run test:history` comprueba atribución por grupo, totales en céntimos, exclusión de revertidos y duplicados, filtros y permiso de reversión. Junto con las pruebas del jardín, se validan 22 casos automatizados.
 
 En navegador se verificaron dos autores distintos, importes de S/ 100 y S/ 50, un aporte de S/ 10 previamente revertido, filtros de espacio y reversión del aporte propio. Tras deshacer los S/ 100, el resumen quedó en S/ 50 para el otro integrante y los tres registros se conservaron. El gasto privado del segundo usuario no fue visible. A 320 px se observaron 305 px útiles y 305 px de contenido, sin desbordamiento horizontal; la consola no registró errores en esa revisión. Las dos cuentas y todos sus datos temporales se eliminaron al terminar.
+
+## Preguntas por voz al asistente
+
+El botón «Dictar pregunta» inicia el reconocimiento del navegador en español peruano. La transcripción aparece en el mismo campo de la consulta. «Detener dictado» conserva el texto; al terminar se puede editar y pulsar «Consultar al asistente». No se envían resultados parciales automáticamente ni se cambia el servicio de IA.
+
+El micrófono se libera al salir de Asistente, ocultar la pestaña o abrir el registro de movimientos. Los errores de permiso, micrófono, red o ausencia de voz mantienen disponible la escritura y conservan la pregunta. Si el navegador no ofrece reconocimiento, el botón de dictado queda deshabilitado con una explicación.
+
+La aplicación no almacena grabaciones. El reconocimiento lo gestiona el navegador y puede usar un servicio remoto o requerir conexión, según su implementación ([Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)).
+
+`npm run test:voice` comprueba transcripciones sucesivas, conservación de texto, permisos denegados o concedidos tarde, fallos de inicio, cierre de la escucha y el límite de 1500 caracteres. Son pruebas con un reconocedor simulado; no acreditan captación real de audio en todos los navegadores. Con jardín e historial suman 29 casos automatizados.
