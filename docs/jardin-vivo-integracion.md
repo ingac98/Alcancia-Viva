@@ -1,10 +1,12 @@
 # Jardín vivo integrado
 
-Rama de trabajo: `feat/jardin-vivo-por-metas`.
+Rama de desarrollo: `feat/jardin-vivo-por-metas`. Versión integrada en `main`.
 
 Vista de prueba: https://jardin-integrado--alcancia-viva-jardin.netlify.app
 
-La rama `main` y el despliegue de producción se mantienen separados de esta implementación. La vista de prueba usa el mismo proyecto Supabase: los registros de una cuenta son compartidos entre las dos versiones. Las pruebas funcionales se realizan con cuentas temporales autorizadas, sin modificar registros de usuarios existentes.
+Aplicación principal: https://alcancia-viva-jardin.netlify.app
+
+El jardín, el historial por integrante y las mejoras de voz se incorporan a `main` y al despliegue principal. La vista de revisión usa el mismo proyecto Supabase: los registros de una cuenta son compartidos entre ambas direcciones. Las pruebas funcionales se realizaron con cuentas temporales autorizadas, sin modificar registros de usuarios existentes.
 
 ## Comportamiento
 
@@ -43,7 +45,7 @@ La comprobación final a 320 px dio 305 px útiles de viewport y 305 px de conte
 
 Al terminar se cerró la sesión temporal y se eliminaron las dos cuentas, sus perfiles, sesiones, identidades, metas, aportes y el grupo de prueba. La consulta de verificación devolvió cero usuarios, metas, movimientos y grupos de prueba restantes. No se cambiaron registros de cuentas existentes.
 
-Al validar esta entrega, `main` conserva el commit `4550799af0f738e98b609d2ebdfb1771766fe78a` y producción conserva el despliegue `6af495ab649355510d85cfa9`. La versión integrada se publicó exclusivamente en el alias `jardin-integrado`, despliegue `6af4ca5e797c1d1c7f80f2b5`.
+Durante la validación inicial se mantuvieron separados `main` (commit `4550799af0f738e98b609d2ebdfb1771766fe78a`) y producción (despliegue `6af495ab649355510d85cfa9`). Tras la autorización de integración, esa versión anterior se conserva en `backup/main-antes-jardin-dinamico`; la rama principal incorpora los cambios validados. No se requiere una migración de datos para esta integración.
 
 Los recursos visuales y sus instrucciones se documentan en [public/garden/README.md](../public/garden/README.md) y [jardin-assets-prompts.json](jardin-assets-prompts.json).
 

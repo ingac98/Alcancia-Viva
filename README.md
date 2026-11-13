@@ -11,7 +11,7 @@
 
 **[Abrir la aplicación](https://alcancia-viva-jardin.netlify.app)** · **[Repositorio del equipo](https://github.com/ingac98/Alcancia-Viva)** · **[Guía de instalación](docs/INSTALL.md)** · **[Datos simulados](data/mock_data.json)**
 
-En la rama `feat/jardin-vivo-por-metas` se puede [probar el jardín dinámico integrado](https://jardin-integrado--alcancia-viva-jardin.netlify.app). Esta versión tiene un despliegue separado; `main` y la página de exposición conservan su versión actual. [Alcance y validación del jardín](docs/jardin-vivo-integracion.md).
+La versión de `main` incluye el jardín dinámico por metas, el historial de aportes por integrante y las preguntas por voz al asistente, con pausa y reanudación de sus respuestas. Se publica en la aplicación principal de Netlify. La [vista de revisión](https://jardin-integrado--alcancia-viva-jardin.netlify.app) permanece disponible. [Alcance y validación del jardín](docs/jardin-vivo-integracion.md).
 
 ![Jardín floreciente de Alcancía Viva](public/garden/floreciente.png)
 

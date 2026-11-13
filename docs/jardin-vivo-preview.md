@@ -45,4 +45,4 @@ Validación realizada: 8 pruebas automatizadas aprobadas; compilación TypeScrip
 
 Vista previa separada: https://jardin-vivo--alcancia-viva-jardin.netlify.app/design/garden-preview.html
 
-Esta entrega es para corregir el aspecto y la interacción antes de integrar datos reales. La aplicación de producción y la rama `main` conservan su versión actual.
+Esta vista aislada se creó para revisar el aspecto y la interacción antes de integrar los datos de las cuentas. Tras esa revisión, la implementación conectada se incorporó a `main` y a la aplicación principal; esta página conserva la propuesta visual independiente.
