@@ -245,6 +245,16 @@ node scripts/verify-assistant.mjs
 
 Las verificaciones cubren interpretación de movimientos, destino del ahorro, ambigüedad, montos, cálculo semanal, reglas del jardín y respuestas del asistente en soles.
 
+Las pruebas automáticas de [tests/](tests/) se ejecutan por funcionalidad:
+
+| Comando | Qué comprueba |
+| --- | --- |
+| `npm run test:garden` | Jardín dinámico y vista previa de macetas por meta. |
+| `npm run test:history` | Historial de aportes por integrante. |
+| `npm run test:voice` | Dictado de preguntas al asistente. |
+| `npm run test:playback` | Pausa y reanudación de la lectura de respuestas. |
+| `npm run test:recovery` | Recuperación de contraseña por correo. |
+
 Las pruebas de integración registraron autenticación, aprobación de solicitudes, privacidad de gastos, múltiples grupos y metas, aportes simultáneos, ausencia de duplicados y eventos Realtime. Sus resultados y capturas están en [docs/evidence/](docs/evidence/), incluida la [verificación del despliegue en Netlify](docs/evidence/netlify-deployment.json).
 
 Las pruebas SQL que sustituyen Auth están destinadas a una base local desechable. Su ejecución se explica en [docs/SUPABASE.md](docs/SUPABASE.md); `local-bootstrap.sql` no se ejecuta sobre el proyecto compartido. El micrófono, los lectores de pantalla y el uso completo sin conexión se evalúan con los dispositivos y usuarios de las sesiones de prueba.
